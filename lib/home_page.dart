@@ -20,7 +20,16 @@ class HomePage extends StatelessWidget {
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () async {
+          // The JSONPlaceholder API always responds with whatever was passed in the POST request
+          final response = await Provider.of<PostApiService>(context, listen: false).postPost(
+            {'key': 'value'},
+          );
+          // We cannot really add any new posts using the placeholder API,
+          // so just print the response to the console
+          print(
+              'status code: ${response.statusCode}\nresponse body: ${response.body}');
+        },
       ),
     );
   }
@@ -31,7 +40,7 @@ class HomePage extends StatelessWidget {
     return FutureBuilder<Response>(
       // In real apps, use some sort of state management (BLoC is cool)
       // to prevent duplicate requests when the UI rebuilds
-      future: Provider.of<PostApiService>(context).getPosts(),
+      future: Provider.of<PostApiService>(context, listen: false).getPosts(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {

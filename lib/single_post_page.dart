@@ -18,7 +18,7 @@ class SinglePostPage extends StatelessWidget {
         title: const Text('Chopper Blog'),
       ),
       body: FutureBuilder<Response>(
-        future: Provider.of<PostApiService>(context).getPost(postId),
+        future: Provider.of<PostApiService>(context,listen: false).getPost(postId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data != null) {
