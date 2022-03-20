@@ -3,8 +3,21 @@ import 'package:flutter_chopper_demo/home_page.dart';
 import 'package:provider/provider.dart';
 
 import 'data/post_api_service.dart';
+import 'package:logging/logging.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  _setupLogging();
+  runApp(const MyApp());
+}
+
+void _setupLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen(
+    (event) {
+      print('${event.level.name}: ${event.time}: ${event.message}');
+    },
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
